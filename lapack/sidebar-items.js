@@ -1,0 +1,1 @@
+initSidebarItems({"mod":[["getrf","LU factorization of a matrix"],["getri","Invert a matrix using the LU factorization computed by GETRF"]],"trait":[["Getrf","Types with `getrf` acceleration"],["Getri","Types with `getri` acceleration"]]});

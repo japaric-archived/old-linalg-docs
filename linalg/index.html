@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `linalg` crate.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, linalg">
+
+    <title>linalg - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../main.css">
+
+    
+    
+</head>
+<body class="rustdoc">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <section class="sidebar">
+        
+        <p class='location'></p><script>window.sidebarCurrent = {name: 'linalg', ty: 'mod', relpath: '../'};</script>
+    </section>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press 'S' to search, '?' for more options..."
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content mod">
+<h1 class='fqn'><span class='in-band'>Crate <a class='mod' href=''>linalg</a></span><span class='out-of-band'><span id='render-detail'>
+            <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                [<span class='inner'>&#x2212;</span>]
+            </a>
+        </span><a id='src-0' class='srclink' href='../src/linalg/lib.rs.html#1-598' title='goto source code'>[src]</a></span></h1>
+<div class='docblock'><p>A linear algebra library with BLAS and LAPACK acceleration</p>
+
+<h1 id="using-linalg" class='section-header'><a
+                           href="#using-linalg">Using linalg</a></h1>
+<p>Add these dependencies to your Cargo.toml</p>
+<pre id='rust-example-rendered' class='rust '>
+[<span class='ident'>dependencies</span>.<span class='ident'>linalg</span>]
+<span class='ident'>features</span> <span class='op'>=</span> [<span class='string'>&quot;macros&quot;</span>]  <span class='attribute'># <span class='ident'>Optional</span>, <span class='ident'>enables</span> <span class='ident'>the</span> <span class='macro'>mat</span><span class='macro'>!</span> <span class='ident'>syntax</span> <span class='ident'>extension</span>
+<span class='ident'>git</span> <span class='op'>=</span> <span class='string'>&quot;https://github.com/japaric/linalg.rs&quot;</span>
+</pre>
+
+<p>All the functionality is available via the <a href="prelude/index.html">prelude</a> module, glob import it:</p>
+<pre id='rust-example-rendered' class='rust '>
+<span class='comment'>// Optional, enables the mat! syntax extension</span>
+<span class='attribute'>#<span class='op'>!</span>[<span class='ident'>plugin</span>(<span class='ident'>linalg_macros</span>)]</span>
+
+<span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>linalg</span>;
+
+<span class='comment'>// Imports extension traits and main `struct`s like `Mat`</span>
+<span class='kw'>use</span> <span class='ident'>linalg</span>::<span class='ident'>prelude</span>::<span class='op'>*</span>;
+</pre>
+
+<h1 id="quick-reference" class='section-header'><a
+                           href="#quick-reference">Quick reference</a></h1>
+<p>For NumPy/Octave users</p>
+
+<ul>
+<li>Matrix initialization</li>
+</ul>
+<pre id='rust-example-rendered' class='rust '>
+<span class='comment'>// Octave</span>
+<span class='ident'>A</span> <span class='op'>=</span> [<span class='number'>1</span>, <span class='number'>2</span>, <span class='number'>3</span>; <span class='number'>4</span>, <span class='number'>5</span>, <span class='number'>6</span>; <span class='number'>7</span>, <span class='number'>8</span>, <span class='number'>9</span>];
+
+<span class='comment'>// Rust</span>
+<span class='kw'>let</span> <span class='ident'>A</span> <span class='op'>=</span> <span class='macro'>mat</span><span class='macro'>!</span>[<span class='number'>1</span>, <span class='number'>2</span>, <span class='number'>3</span>; <span class='number'>4</span>, <span class='number'>5</span>, <span class='number'>6</span>; <span class='number'>7</span>, <span class='number'>8</span>, <span class='number'>9</span>];
+</pre>
+
+<ul>
+<li>Indexing</li>
+</ul>
+<pre id='rust-example-rendered' class='rust '>
+<span class='comment'>// Python</span>
+<span class='ident'>A</span>[<span class='number'>1</span>, <span class='number'>2</span>] <span class='op'>=</span> <span class='number'>5</span>
+<span class='ident'>x</span> <span class='op'>=</span> <span class='ident'>A</span>[<span class='number'>3</span>, <span class='number'>4</span>]
+
+<span class='comment'>// Rust</span>
+<span class='ident'>A</span>[(<span class='number'>1</span>, <span class='number'>2</span>)] <span class='op'>=</span> <span class='number'>5</span>;
+<span class='kw'>let</span> <span class='ident'>x</span> <span class='op'>=</span> <span class='ident'>A</span>[(<span class='number'>3</span>, <span class='number'>4</span>)];  <span class='comment'>// or `&amp;A[(3, 4)]` or `&amp;mut A[(3, 4)]`</span>
+</pre>
+
+<ul>
+<li>Slicing</li>
+</ul>
+<pre id='rust-example-rendered' class='rust '>
+<span class='comment'>// Python</span>
+<span class='ident'>second_row</span> <span class='op'>=</span> <span class='ident'>A</span>[<span class='number'>1</span>, :]
+<span class='ident'>third_column</span> <span class='op'>=</span> <span class='ident'>A</span>[:, <span class='number'>2</span>]
+<span class='ident'>submat</span> <span class='op'>=</span> <span class='ident'>A</span>[:<span class='number'>3</span>, <span class='number'>2</span>:]  <span class='comment'>// or A[0:3, 2:4]</span>
+
+<span class='comment'>// Rust</span>
+<span class='kw'>let</span> <span class='ident'>second_row</span> <span class='op'>=</span> <span class='ident'>A</span>.<span class='ident'>row</span>(<span class='number'>1</span>);        <span class='comment'>// or A.slice((1, ..))</span>
+<span class='kw'>let</span> <span class='ident'>third_column</span> <span class='op'>=</span> <span class='ident'>A</span>.<span class='ident'>col</span>(<span class='number'>2</span>);      <span class='comment'>// or A.slice((.., 2))</span>
+<span class='kw'>let</span> <span class='ident'>submat</span> <span class='op'>=</span> <span class='ident'>A</span>.<span class='ident'>slice</span>((..<span class='number'>3</span>, <span class='number'>2</span>..))  <span class='comment'>// or A.slice((0..3, 2..4))</span>
+
+<span class='comment'>// NOTE All the operations have a mutable variant, just add a `_mut` suffix.</span>
+<span class='comment'>// Example: `let second_row = A.row_mut(1)`;</span>
+</pre>
+
+<ul>
+<li>Augmented assignment</li>
+</ul>
+
+<p>Increase all the elements of the second row by 1.</p>
+<pre id='rust-example-rendered' class='rust '>
+<span class='comment'>// Python</span>
+<span class='ident'>A</span>[<span class='number'>1</span>, :] <span class='op'>+=</span> <span class='number'>1</span>;
+
+<span class='comment'>// Rust</span>
+<span class='ident'>A</span>.<span class='ident'>row_mut</span>(<span class='number'>1</span>).<span class='ident'>add_assign</span>(<span class='number'>1</span>)
+</pre>
+
+<p>Subtract sub-matrices</p>
+<pre id='rust-example-rendered' class='rust '>
+<span class='comment'>// Python</span>
+<span class='ident'>A</span>[<span class='number'>1</span>:<span class='number'>3</span>, <span class='number'>2</span>:<span class='number'>4</span>] <span class='op'>-=</span> <span class='ident'>B</span>[:<span class='number'>2</span>, <span class='number'>1</span>:<span class='number'>3</span>]
+
+<span class='comment'>// Rust</span>
+<span class='ident'>A</span>.<span class='ident'>slice_mut</span>((<span class='number'>1</span>..<span class='number'>3</span>, <span class='number'>2</span>..<span class='number'>4</span>)).<span class='ident'>sub_assign</span>(<span class='ident'>B</span>.<span class='ident'>slice</span>((..<span class='number'>2</span>, <span class='number'>1</span>..<span class='number'>3</span>)));
+</pre>
+
+<ul>
+<li>Index assignment</li>
+</ul>
+
+<p>Set all the elements of the second column to 0</p>
+<pre id='rust-example-rendered' class='rust '>
+<span class='comment'>// Python</span>
+<span class='ident'>A</span>[:, <span class='number'>1</span>] <span class='op'>=</span> <span class='number'>0</span>;
+
+<span class='comment'>// Rust</span>
+<span class='ident'>A</span>.<span class='ident'>col_mut</span>(<span class='number'>1</span>).<span class='ident'>set</span>(<span class='number'>0</span>);
+</pre>
+
+<ul>
+<li>Copy sub-matrices</li>
+</ul>
+<pre id='rust-example-rendered' class='rust '>
+<span class='comment'>// Python</span>
+<span class='ident'>A</span>[<span class='number'>1</span>:<span class='number'>3</span>, <span class='number'>1</span>:<span class='number'>3</span>] <span class='op'>=</span> <span class='ident'>B</span>[<span class='number'>2</span>:<span class='number'>4</span>, <span class='number'>3</span>:<span class='number'>5</span>]
+
+<span class='comment'>// Rust</span>
+<span class='ident'>A</span>.<span class='ident'>slice_mut</span>((<span class='number'>1</span>..<span class='number'>3</span>, <span class='number'>1</span>..<span class='number'>3</span>)).<span class='ident'>set</span>(<span class='ident'>B</span>.<span class='ident'>slice</span>((<span class='number'>2</span>..<span class='number'>4</span>, <span class='number'>3</span>..<span class='number'>5</span>)));
+</pre>
+
+<ul>
+<li>Matrix multiplication</li>
+</ul>
+<pre id='rust-example-rendered' class='rust '>
+<span class='comment'>// Python</span>
+<span class='ident'>D</span> <span class='op'>=</span> <span class='ident'>A</span>.<span class='ident'>dot</span>(<span class='ident'>B</span>).<span class='ident'>dot</span>(<span class='ident'>C</span>)
+
+<span class='comment'>// Rust</span>
+<span class='kw'>let</span> <span class='ident'>D</span> <span class='op'>=</span> <span class='ident'>A</span> <span class='op'>*</span> <span class='ident'>B</span> <span class='op'>*</span> <span class='ident'>C</span>;
+</pre>
+
+<ul>
+<li>Transpose</li>
+</ul>
+<pre id='rust-example-rendered' class='rust '>
+<span class='comment'>// Python</span>
+<span class='ident'>A</span> <span class='op'>=</span> <span class='ident'>B</span>.<span class='ident'>T</span>
+
+<span class='comment'>// Rust</span>
+<span class='kw'>let</span> <span class='ident'>A</span> <span class='op'>=</span> <span class='ident'>B</span>.<span class='ident'>t</span>();
+</pre>
+
+<ul>
+<li>Matrix inverse</li>
+</ul>
+<pre id='rust-example-rendered' class='rust '>
+<span class='comment'>// Python</span>
+<span class='ident'>B</span> <span class='op'>=</span> <span class='ident'>numpy</span>.<span class='ident'>linalg</span>.<span class='ident'>inv</span>(<span class='ident'>A</span>)
+
+<span class='comment'>// Rust</span>
+<span class='kw'>let</span> <span class='ident'>B</span> <span class='op'>=</span> <span class='ident'>A</span>.<span class='ident'>inv</span>();
+</pre>
+
+<h1 id="overview-of-the-api" class='section-header'><a
+                           href="#overview-of-the-api">Overview of the API</a></h1>
+<ul>
+<li>There are two types of structures provided by this crate: &quot;owned structures&quot;, and &quot;views&quot;.
+The former own the data, and are in charge of freeing memory when <code>drop</code>ed, the latter are
+borrows of the former, and provide limited access to the data.</li>
+<li>The owned structures: <code>Mat</code>, <code>ColVec</code> and <code>RowVec</code> provide constructors via static methods.</li>
+<li><p>Most of the functionality (other than overloaded operators) is provided as methods via
+extension traits. All the public extension traits are grouped in the <a href="traits/index.html">traits</a> module.</p></li>
+<li><p>There are several conversions between views and from views to owned structures available via
+the <code>From</code>/<code>Into</code> traits.</p></li>
+</ul>
+
+<h1 id="notes-about-operators" class='section-header'><a
+                           href="#notes-about-operators">Notes about operators</a></h1>
+<ul>
+<li><p>Keep in mind that all operators (unary/binary) take their operands by value.</p></li>
+<li><p>Both forms of multiplication: matrix multiplication and scaling are lazy. If you want eager
+evaluation, you can use the <code>eval()</code> method, but this allocates memory, and should be avoided
+whenever possible.</p></li>
+</ul>
+<pre id='rust-example-rendered' class='rust '>
+<span class='comment'>// No op</span>
+<span class='kw'>let</span> <span class='ident'>C</span> <span class='op'>=</span> <span class='ident'>A</span> <span class='op'>*</span> <span class='ident'>B</span>;
+
+<span class='comment'>// Performs the matrix multiplication</span>
+<span class='kw'>let</span> <span class='ident'>C</span> <span class='op'>=</span> (<span class='ident'>A</span> <span class='op'>*</span> <span class='ident'>B</span>).<span class='ident'>eval</span>();
+</pre>
+
+<ul>
+<li>When multiplying matrices, you never want to give up ownership. Always multiply views.</li>
+</ul>
+<pre id='rust-example-rendered' class='rust '>
+<span class='comment'>// A and B are owned</span>
+<span class='kw'>let</span> <span class='ident'>C</span> <span class='op'>=</span> <span class='ident'>A</span> <span class='op'>*</span> <span class='ident'>B</span>;  <span class='comment'>//~ error</span>
+
+<span class='kw'>let</span> <span class='ident'>C</span> <span class='op'>=</span> <span class='kw-2'>&amp;</span><span class='ident'>A</span> <span class='op'>*</span> <span class='kw-2'>&amp;</span><span class='ident'>B</span>;  <span class='comment'>// OK</span>
+</pre>
+
+<ul>
+<li>Addition and subtraction are eager, and one of the operands must provide a buffer to store
+the result, in most cases this means that one of the operators needs to be <em>moved into</em> the
+operation.</li>
+</ul>
+<pre id='rust-example-rendered' class='rust '>
+<span class='comment'>// Both A and B own their data</span>
+
+<span class='kw'>let</span> <span class='ident'>C</span> <span class='op'>=</span> <span class='ident'>A</span> <span class='op'>+</span> <span class='kw-2'>&amp;</span><span class='ident'>B</span>;  <span class='comment'>// OK, result will be stored in A&#39;s buffer</span>
+
+<span class='kw'>let</span> <span class='ident'>C</span> <span class='op'>=</span> <span class='ident'>A</span> <span class='op'>+</span> <span class='ident'>B</span>;
+<span class='comment'>//~^ error: the result could be stored in A&#39;s buffer, but B would be unnecessarily dropped</span>
+
+<span class='kw'>let</span> <span class='ident'>C</span> <span class='op'>=</span> <span class='kw-2'>&amp;</span><span class='ident'>A</span> <span class='op'>+</span> <span class='kw-2'>&amp;</span><span class='ident'>B</span>;  <span class='comment'>//~ error: nowhere to store the result</span>
+</pre>
+
+<ul>
+<li>When you only have views and need to perform an addition/subtraction, you&#39;ll have to allocate
+memory. For performance, avoid allocating in loops.</li>
+</ul>
+<pre id='rust-example-rendered' class='rust '>
+<span class='comment'>// theta, X and y are views</span>
+
+<span class='comment'>// Bad: allocation in a loop</span>
+<span class='kw'>loop</span> {
+    <span class='kw'>let</span> <span class='ident'>y</span> <span class='op'>=</span> <span class='ident'>ColVec</span>::<span class='ident'>from</span>(<span class='ident'>y</span>);  <span class='comment'>// Deep copy</span>
+    <span class='kw'>let</span> <span class='ident'>e</span> <span class='op'>=</span> <span class='ident'>y</span> <span class='op'>-</span> <span class='ident'>theta</span> <span class='op'>*</span> <span class='ident'>X</span>;
+
+    ..
+
+    <span class='kw'>if</span> <span class='ident'>condition</span>(<span class='kw-2'>&amp;</span><span class='ident'>e</span>) { <span class='kw'>break</span> }
+}
+
+<span class='comment'>// Instead allocate a buffer outside the loop, and re-use it in the loop</span>
+<span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>z</span> <span class='op'>=</span> <span class='ident'>ColVec</span>::<span class='ident'>zeros</span>(<span class='ident'>y</span>.<span class='ident'>nrows</span>());
+
+<span class='kw'>loop</span> {
+    <span class='comment'>// z = y</span>
+    <span class='ident'>z</span>.<span class='ident'>set</span>(<span class='ident'>y</span>);
+
+    <span class='comment'>// z = y - theta * X</span>
+    <span class='ident'>z</span>.<span class='ident'>sub_assign</span>(<span class='ident'>theta</span> <span class='op'>*</span> <span class='ident'>X</span>);
+
+    ..
+
+    <span class='kw'>if</span> <span class='ident'>condition</span>(<span class='kw-2'>&amp;</span><span class='ident'>z</span>) { <span class='kw'>break</span> }
+}
+</pre>
+
+<ul>
+<li><p>Transposing a matrix is &quot;free&quot;, no allocations, copies or operations are performed . Do note
+that the <code>t()</code> method takes the caller by value.</p></li>
+<li><p>The <code>inv()</code> method computes the inverse of an owned (square) matrix and takes ownership of
+the caller. The caller&#39;s buffer will be re-used to store the inverse.</p></li>
+</ul>
+</div><h2 id='modules' class='section-header'><a href="#modules">Modules</a></h2>
+<table>
+                    <tr class=' module-item'>
+                        <td><a class='mod' href='prelude/index.html'
+                               title='linalg::prelude'>prelude</a></td>
+                        <td class='docblock short'>
+                             <p>The &quot;prelude&quot;, a collection of the most used traits and structs.</p>
+
+                        </td>
+                    </tr>
+                
+                    <tr class=' module-item'>
+                        <td><a class='mod' href='strided/index.html'
+                               title='linalg::strided'>strided</a></td>
+                        <td class='docblock short'>
+                             <p>Strided slices</p>
+
+                        </td>
+                    </tr>
+                
+                    <tr class=' module-item'>
+                        <td><a class='mod' href='submat/index.html'
+                               title='linalg::submat'>submat</a></td>
+                        <td class='docblock short'>
+                             <p>Sub-matrix views</p>
+
+                        </td>
+                    </tr>
+                
+                    <tr class=' module-item'>
+                        <td><a class='mod' href='traits/index.html'
+                               title='linalg::traits'>traits</a></td>
+                        <td class='docblock short'>
+                             <p>Extension traits</p>
+
+                        </td>
+                    </tr>
+                
+                    <tr class=' module-item'>
+                        <td><a class='mod' href='transposed/index.html'
+                               title='linalg::transposed'>transposed</a></td>
+                        <td class='docblock short'>
+                             <p>Transposed matrices</p>
+
+                        </td>
+                    </tr>
+                </table><h2 id='structs' class='section-header'><a href="#structs">Structs</a></h2>
+<table>
+                    <tr class=' module-item'>
+                        <td><a class='struct' href='struct.Chain.html'
+                               title='linalg::Chain'>Chain</a></td>
+                        <td class='docblock short'>
+                             <p>Lazy matrix chain multiplication</p>
+
+                        </td>
+                    </tr>
+                
+                    <tr class=' module-item'>
+                        <td><a class='struct' href='struct.Col.html'
+                               title='linalg::Col'>Col</a></td>
+                        <td class='docblock short'>
+                             <p>Immutable view into the column of a matrix</p>
+
+                        </td>
+                    </tr>
+                
+                    <tr class=' module-item'>
+                        <td><a class='struct' href='struct.ColMut.html'
+                               title='linalg::ColMut'>ColMut</a></td>
+                        <td class='docblock short'>
+                             <p>Mutable &quot;view&quot; into the column of a matrix</p>
+
+                        </td>
+                    </tr>
+                
+                    <tr class=' module-item'>
+                        <td><a class='struct' href='struct.ColVec.html'
+                               title='linalg::ColVec'>ColVec</a></td>
+                        <td class='docblock short'>
+                             <p>Owned column vector</p>
+
+                        </td>
+                    </tr>
+                
+                    <tr class=' module-item'>
+                        <td><a class='struct' href='struct.Cols.html'
+                               title='linalg::Cols'>Cols</a></td>
+                        <td class='docblock short'>
+                             <p>Iterator over the columns of an immutable matrix</p>
+
+                        </td>
+                    </tr>
+                
+                    <tr class=' module-item'>
+                        <td><a class='struct' href='struct.ColsMut.html'
+                               title='linalg::ColsMut'>ColsMut</a></td>
+                        <td class='docblock short'>
+                             <p>Iterator over the columns of a mutable matrix</p>
+
+                        </td>
+                    </tr>
+                
+                    <tr class=' module-item'>
+                        <td><a class='struct' href='struct.Diag.html'
+                               title='linalg::Diag'>Diag</a></td>
+                        <td class='docblock short'>
+                             <p>An immutable view into the diagonal of a matrix</p>
+
+                        </td>
+                    </tr>
+                
+                    <tr class=' module-item'>
+                        <td><a class='struct' href='struct.DiagMut.html'
+                               title='linalg::DiagMut'>DiagMut</a></td>
+                        <td class='docblock short'>
+                             <p>A mutable &quot;view&quot; into the diagonal of a matrix</p>
+
+                        </td>
+                    </tr>
+                
+                    <tr class=' module-item'>
+                        <td><a class='struct' href='struct.HStripes.html'
+                               title='linalg::HStripes'>HStripes</a></td>
+                        <td class='docblock short'>
+                             <p>An immutable iterator over a matrix in horizontal stripes</p>
+
+                        </td>
+                    </tr>
+                
+                    <tr class=' module-item'>
+                        <td><a class='struct' href='struct.HStripesMut.html'
+                               title='linalg::HStripesMut'>HStripesMut</a></td>
+                        <td class='docblock short'>
+                             <p>A &quot;mutable&quot; iterator over a matrix in horizontal stripes</p>
+
+                        </td>
+                    </tr>
+                
+                    <tr class=' module-item'>
+                        <td><a class='struct' href='struct.Mat.html'
+                               title='linalg::Mat'>Mat</a></td>
+                        <td class='docblock short'>
+                             <p>An owned matrix</p>
+
+                        </td>
+                    </tr>
+                
+                    <tr class=' module-item'>
+                        <td><a class='struct' href='struct.Product.html'
+                               title='linalg::Product'>Product</a></td>
+                        <td class='docblock short'>
+                             <p>Lazy matrix product</p>
+
+                        </td>
+                    </tr>
+                
+                    <tr class=' module-item'>
+                        <td><a class='struct' href='struct.Row.html'
+                               title='linalg::Row'>Row</a></td>
+                        <td class='docblock short'>
+                             <p>Immutable view into the row of a matrix</p>
+
+                        </td>
+                    </tr>
+                
+                    <tr class=' module-item'>
+                        <td><a class='struct' href='struct.RowMut.html'
+                               title='linalg::RowMut'>RowMut</a></td>
+                        <td class='docblock short'>
+                             <p>Mutable &quot;view&quot; into the row of a matrix</p>
+
+                        </td>
+                    </tr>
+                
+                    <tr class=' module-item'>
+                        <td><a class='struct' href='struct.RowVec.html'
+                               title='linalg::RowVec'>RowVec</a></td>
+                        <td class='docblock short'>
+                             <p>An owned row vector</p>
+
+                        </td>
+                    </tr>
+                
+                    <tr class=' module-item'>
+                        <td><a class='struct' href='struct.Rows.html'
+                               title='linalg::Rows'>Rows</a></td>
+                        <td class='docblock short'>
+                             <p>Iterator over the rows of an immutable matrix</p>
+
+                        </td>
+                    </tr>
+                
+                    <tr class=' module-item'>
+                        <td><a class='struct' href='struct.RowsMut.html'
+                               title='linalg::RowsMut'>RowsMut</a></td>
+                        <td class='docblock short'>
+                             <p>Iterator over the rows of a mutable matrix</p>
+
+                        </td>
+                    </tr>
+                
+                    <tr class=' module-item'>
+                        <td><a class='struct' href='struct.Scaled.html'
+                               title='linalg::Scaled'>Scaled</a></td>
+                        <td class='docblock short'>
+                             <p>A lazily scaled matrix</p>
+
+                        </td>
+                    </tr>
+                
+                    <tr class=' module-item'>
+                        <td><a class='struct' href='struct.SubMat.html'
+                               title='linalg::SubMat'>SubMat</a></td>
+                        <td class='docblock short'>
+                             <p>Immutable sub-matrix view</p>
+
+                        </td>
+                    </tr>
+                
+                    <tr class=' module-item'>
+                        <td><a class='struct' href='struct.SubMatMut.html'
+                               title='linalg::SubMatMut'>SubMatMut</a></td>
+                        <td class='docblock short'>
+                             <p>Mutable sub-matrix &quot;view&quot;</p>
+
+                        </td>
+                    </tr>
+                
+                    <tr class=' module-item'>
+                        <td><a class='struct' href='struct.Transposed.html'
+                               title='linalg::Transposed'>Transposed</a></td>
+                        <td class='docblock short'>
+                             <p>A lazily transposed matrix</p>
+
+                        </td>
+                    </tr>
+                
+                    <tr class=' module-item'>
+                        <td><a class='struct' href='struct.VStripes.html'
+                               title='linalg::VStripes'>VStripes</a></td>
+                        <td class='docblock short'>
+                             <p>An immutable iterator over a matrix in vertical stripes</p>
+
+                        </td>
+                    </tr>
+                
+                    <tr class=' module-item'>
+                        <td><a class='struct' href='struct.VStripesMut.html'
+                               title='linalg::VStripesMut'>VStripesMut</a></td>
+                        <td class='docblock short'>
+                             <p>A &quot;mutable&quot; iterator over a matrix in vertical stripes</p>
+
+                        </td>
+                    </tr>
+                </table></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <div id="help" class="hidden">
+        <div class="shortcuts">
+            <h1>Keyboard shortcuts</h1>
+            <dl>
+                <dt>?</dt>
+                <dd>Show this help dialog</dd>
+                <dt>S</dt>
+                <dd>Focus the search field</dd>
+                <dt>&larrb;</dt>
+                <dd>Move up in search results</dd>
+                <dt>&rarrb;</dt>
+                <dd>Move down in search results</dd>
+                <dt>&#9166;</dt>
+                <dd>Go to active search result</dd>
+            </dl>
+        </div>
+        <div class="infos">
+            <h1>Search tricks</h1>
+            <p>
+                Prefix searches with a type followed by a colon (e.g.
+                <code>fn:</code>) to restrict the search to a given type.
+            </p>
+            <p>
+                Accepted types are: <code>fn</code>, <code>mod</code>,
+                <code>struct</code>, <code>enum</code>,
+                <code>trait</code>, <code>typedef</code> (or
+                <code>tdef</code>).
+            </p>
+            <p>
+                Search functions by type signature (e.g.
+                <code>vec -> usize</code>)
+            </p>
+        </div>
+    </div>
+
+    
+
+    <script>
+        window.rootPath = "../";
+        window.currentCrate = "linalg";
+        window.playgroundUrl = "";
+    </script>
+    <script src="../jquery.js"></script>
+    <script src="../main.js"></script>
+    
+    <script async src="../search-index.js"></script>
+</body>
+</html>

@@ -1,0 +1,1 @@
+initSidebarItems({"trait":[["__linalg_0","The `+=` operator (without the sugar)"],["__linalg_1","The `/=` operator (without the sugar)"],["__linalg_2","The `*=` operator (without the sugar)"],["__linalg_3","The `-=` operator (without the sugar)"]]});

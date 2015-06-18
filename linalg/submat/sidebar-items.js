@@ -1,0 +1,1 @@
+initSidebarItems({"struct":[["Iter","An iterator over an immutable sub-matrix view"],["IterMut","An iterator over a mutable sub-matrix \"view\""]]});

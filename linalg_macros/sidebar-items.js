@@ -1,0 +1,1 @@
+initSidebarItems({"macro":[["mat!","Creates an owned matrix from its arguments"]]});

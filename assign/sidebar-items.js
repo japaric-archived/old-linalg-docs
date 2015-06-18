@@ -1,0 +1,1 @@
+initSidebarItems({"trait":[["AddAssign","The `+=` operator (without the sugar)"],["DivAssign","The `/=` operator (without the sugar)"],["MulAssign","The `*=` operator (without the sugar)"],["SubAssign","The `-=` operator (without the sugar)"]]});

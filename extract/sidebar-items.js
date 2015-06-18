@@ -1,0 +1,1 @@
+initSidebarItems({"trait":[["Extract","Extension trait for `Option` that adds the `extract()` method"]]});

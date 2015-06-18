@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `traits` mod in crate `linalg`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, traits">
+
+    <title>linalg::traits - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../../main.css">
+
+    
+    
+</head>
+<body class="rustdoc">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <section class="sidebar">
+        
+        <p class='location'><a href='../index.html'>linalg</a></p><script>window.sidebarCurrent = {name: 'traits', ty: 'mod', relpath: '../'};</script><script defer src="../sidebar-items.js"></script>
+    </section>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press 'S' to search, '?' for more options..."
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content mod">
+<h1 class='fqn'><span class='in-band'>Module <a href='../index.html'>linalg</a>::<wbr><a class='mod' href=''>traits</a></span><span class='out-of-band'><span id='render-detail'>
+            <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                [<span class='inner'>&#x2212;</span>]
+            </a>
+        </span><a id='src-72637' class='srclink' href='../../src/linalg/traits.rs.html#1-239' title='goto source code'>[src]</a></span></h1>
+<div class='docblock'><p>Extension traits</p>
+
+<p>WARNING! At this point in time, these traits are <em>not</em> meant to be used for generic
+ programming, and will remain unstable. What&#39;s guaranteed to be (somewhat) stable is the
+ functionality, i.e. the methods, provided by them.</p>
+</div><h2 id='traits' class='section-header'><a href="#traits">Traits</a></h2>
+<table>
+                    <tr class=' module-item'>
+                        <td><a class='trait' href='trait.Eval.html'
+                               title='linalg::traits::Eval'>Eval</a></td>
+                        <td class='docblock short'>
+                             <p>Force evaluation of lazy operations</p>
+
+                        </td>
+                    </tr>
+                
+                    <tr class=' module-item'>
+                        <td><a class='trait' href='trait.HSplit.html'
+                               title='linalg::traits::HSplit'>HSplit</a></td>
+                        <td class='docblock short'>
+                             <p>&quot;Immutable&quot; horizontal splitting</p>
+
+                        </td>
+                    </tr>
+                
+                    <tr class=' module-item'>
+                        <td><a class='trait' href='trait.HSplitMut.html'
+                               title='linalg::traits::HSplitMut'>HSplitMut</a></td>
+                        <td class='docblock short'>
+                             <p>&quot;Mutable&quot; horizontal splitting</p>
+
+                        </td>
+                    </tr>
+                
+                    <tr class=' module-item'>
+                        <td><a class='trait' href='trait.Iter.html'
+                               title='linalg::traits::Iter'>Iter</a></td>
+                        <td class='docblock short'>
+                             <p>&quot;Immutable iteration&quot; over a matrix</p>
+
+                        </td>
+                    </tr>
+                
+                    <tr class=' module-item'>
+                        <td><a class='trait' href='trait.IterMut.html'
+                               title='linalg::traits::IterMut'>IterMut</a></td>
+                        <td class='docblock short'>
+                             <p>&quot;Mutable iteration&quot; over a matrix</p>
+
+                        </td>
+                    </tr>
+                
+                    <tr class=' module-item'>
+                        <td><a class='trait' href='trait.Matrix.html'
+                               title='linalg::traits::Matrix'>Matrix</a></td>
+                        <td class='docblock short'>
+                             <p>The basic idea of a matrix: A rectangular array arranged in rows and columns</p>
+
+                        </td>
+                    </tr>
+                
+                    <tr class=' module-item'>
+                        <td><a class='trait' href='trait.MatrixCol.html'
+                               title='linalg::traits::MatrixCol'>MatrixCol</a></td>
+                        <td class='docblock short'>
+                             <p>Immutable view into the column of a matrix</p>
+
+                        </td>
+                    </tr>
+                
+                    <tr class=' module-item'>
+                        <td><a class='trait' href='trait.MatrixColMut.html'
+                               title='linalg::traits::MatrixColMut'>MatrixColMut</a></td>
+                        <td class='docblock short'>
+                             <p>Mutable access to the column of a matrix</p>
+
+                        </td>
+                    </tr>
+                
+                    <tr class=' module-item'>
+                        <td><a class='trait' href='trait.MatrixCols.html'
+                               title='linalg::traits::MatrixCols'>MatrixCols</a></td>
+                        <td class='docblock short'>
+                             <p>Immutable column-by-column iteration</p>
+
+                        </td>
+                    </tr>
+                
+                    <tr class=' module-item'>
+                        <td><a class='trait' href='trait.MatrixColsMut.html'
+                               title='linalg::traits::MatrixColsMut'>MatrixColsMut</a></td>
+                        <td class='docblock short'>
+                             <p>Mutable column-by-column iteration</p>
+
+                        </td>
+                    </tr>
+                
+                    <tr class=' module-item'>
+                        <td><a class='trait' href='trait.MatrixDiag.html'
+                               title='linalg::traits::MatrixDiag'>MatrixDiag</a></td>
+                        <td class='docblock short'>
+                             <p>Immutable view into the diagonal of a matrix</p>
+
+                        </td>
+                    </tr>
+                
+                    <tr class=' module-item'>
+                        <td><a class='trait' href='trait.MatrixDiagMut.html'
+                               title='linalg::traits::MatrixDiagMut'>MatrixDiagMut</a></td>
+                        <td class='docblock short'>
+                             <p>Mutable access to the diagonal of a matrix</p>
+
+                        </td>
+                    </tr>
+                
+                    <tr class=' module-item'>
+                        <td><a class='trait' href='trait.MatrixHStripes.html'
+                               title='linalg::traits::MatrixHStripes'>MatrixHStripes</a></td>
+                        <td class='docblock short'>
+                             <p>&quot;Immutable iteration&quot; over a matrix in horizontal stripes</p>
+
+                        </td>
+                    </tr>
+                
+                    <tr class=' module-item'>
+                        <td><a class='trait' href='trait.MatrixHStripesMut.html'
+                               title='linalg::traits::MatrixHStripesMut'>MatrixHStripesMut</a></td>
+                        <td class='docblock short'>
+                             <p>&quot;Mutable iteration&quot; over a matrix in horizontal stripes</p>
+
+                        </td>
+                    </tr>
+                
+                    <tr class=' module-item'>
+                        <td><a class='trait' href='trait.MatrixInverse.html'
+                               title='linalg::traits::MatrixInverse'>MatrixInverse</a></td>
+                        <td class='docblock short'>
+                             <p>Matrix inverse</p>
+
+                        </td>
+                    </tr>
+                
+                    <tr class=' module-item'>
+                        <td><a class='trait' href='trait.MatrixRow.html'
+                               title='linalg::traits::MatrixRow'>MatrixRow</a></td>
+                        <td class='docblock short'>
+                             <p>Immutable view into the row of a matrix</p>
+
+                        </td>
+                    </tr>
+                
+                    <tr class=' module-item'>
+                        <td><a class='trait' href='trait.MatrixRowMut.html'
+                               title='linalg::traits::MatrixRowMut'>MatrixRowMut</a></td>
+                        <td class='docblock short'>
+                             <p>Mutable access to the row of a matrix</p>
+
+                        </td>
+                    </tr>
+                
+                    <tr class=' module-item'>
+                        <td><a class='trait' href='trait.MatrixRows.html'
+                               title='linalg::traits::MatrixRows'>MatrixRows</a></td>
+                        <td class='docblock short'>
+                             <p>Immutable row-by-row iteration</p>
+
+                        </td>
+                    </tr>
+                
+                    <tr class=' module-item'>
+                        <td><a class='trait' href='trait.MatrixRowsMut.html'
+                               title='linalg::traits::MatrixRowsMut'>MatrixRowsMut</a></td>
+                        <td class='docblock short'>
+                             <p>Mutable row-by-row iteration</p>
+
+                        </td>
+                    </tr>
+                
+                    <tr class=' module-item'>
+                        <td><a class='trait' href='trait.MatrixVStripes.html'
+                               title='linalg::traits::MatrixVStripes'>MatrixVStripes</a></td>
+                        <td class='docblock short'>
+                             <p>&quot;Immutable iteration&quot; over a matrix in vertical stripes</p>
+
+                        </td>
+                    </tr>
+                
+                    <tr class=' module-item'>
+                        <td><a class='trait' href='trait.MatrixVStripesMut.html'
+                               title='linalg::traits::MatrixVStripesMut'>MatrixVStripesMut</a></td>
+                        <td class='docblock short'>
+                             <p>&quot;Mutable iteration&quot; over a matrix in vertical stripes</p>
+
+                        </td>
+                    </tr>
+                
+                    <tr class=' module-item'>
+                        <td><a class='trait' href='trait.Norm.html'
+                               title='linalg::traits::Norm'>Norm</a></td>
+                        <td class='docblock short'>
+                             <p>Frobenius norm</p>
+
+                        </td>
+                    </tr>
+                
+                    <tr class=' module-item'>
+                        <td><a class='trait' href='trait.Set.html'
+                               title='linalg::traits::Set'>Set</a></td>
+                        <td class='docblock short'>
+                             <p>Alternative to <code>IndexSet</code> (which doesn&#39;t exist)</p>
+
+                        </td>
+                    </tr>
+                
+                    <tr class=' module-item'>
+                        <td><a class='trait' href='trait.Slice.html'
+                               title='linalg::traits::Slice'>Slice</a></td>
+                        <td class='docblock short'>
+                             <p>&quot;Immutable slicing&quot;</p>
+
+                        </td>
+                    </tr>
+                
+                    <tr class=' module-item'>
+                        <td><a class='trait' href='trait.SliceMut.html'
+                               title='linalg::traits::SliceMut'>SliceMut</a></td>
+                        <td class='docblock short'>
+                             <p>&quot;Mutable slicing&quot;</p>
+
+                        </td>
+                    </tr>
+                
+                    <tr class=' module-item'>
+                        <td><a class='trait' href='trait.Transpose.html'
+                               title='linalg::traits::Transpose'>Transpose</a></td>
+                        <td class='docblock short'>
+                             <p>The transpose operator</p>
+
+                        </td>
+                    </tr>
+                
+                    <tr class=' module-item'>
+                        <td><a class='trait' href='trait.VSplit.html'
+                               title='linalg::traits::VSplit'>VSplit</a></td>
+                        <td class='docblock short'>
+                             <p>&quot;Immutable&quot; vertical splitting</p>
+
+                        </td>
+                    </tr>
+                
+                    <tr class=' module-item'>
+                        <td><a class='trait' href='trait.VSplitMut.html'
+                               title='linalg::traits::VSplitMut'>VSplitMut</a></td>
+                        <td class='docblock short'>
+                             <p>&quot;Mutable&quot; vertical splitting</p>
+
+                        </td>
+                    </tr>
+                </table></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <div id="help" class="hidden">
+        <div class="shortcuts">
+            <h1>Keyboard shortcuts</h1>
+            <dl>
+                <dt>?</dt>
+                <dd>Show this help dialog</dd>
+                <dt>S</dt>
+                <dd>Focus the search field</dd>
+                <dt>&larrb;</dt>
+                <dd>Move up in search results</dd>
+                <dt>&rarrb;</dt>
+                <dd>Move down in search results</dd>
+                <dt>&#9166;</dt>
+                <dd>Go to active search result</dd>
+            </dl>
+        </div>
+        <div class="infos">
+            <h1>Search tricks</h1>
+            <p>
+                Prefix searches with a type followed by a colon (e.g.
+                <code>fn:</code>) to restrict the search to a given type.
+            </p>
+            <p>
+                Accepted types are: <code>fn</code>, <code>mod</code>,
+                <code>struct</code>, <code>enum</code>,
+                <code>trait</code>, <code>typedef</code> (or
+                <code>tdef</code>).
+            </p>
+            <p>
+                Search functions by type signature (e.g.
+                <code>vec -> usize</code>)
+            </p>
+        </div>
+    </div>
+
+    
+
+    <script>
+        window.rootPath = "../../";
+        window.currentCrate = "linalg";
+        window.playgroundUrl = "";
+    </script>
+    <script src="../../jquery.js"></script>
+    <script src="../../main.js"></script>
+    
+    <script async src="../../search-index.js"></script>
+</body>
+</html>
